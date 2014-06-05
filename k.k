@@ -1,9 +1,15 @@
 #################################################################
 # Copyright CEP (License : GPL)
 # Kage New Shell Command/Library
-# 03/28/2014 initial version for test
-# 03/31/2014 upgrade function for using old library 
-#$version$:0.2.43
+#      /1994 make my commands to initial shell library(for BBS)
+#      /2003 adding my cluster commands
+#      /2008 upgrade to formula libraries
+#      /2012 reduce and rewrite to compressed command
+# 03/28/2014 initial version of Kage new command k for test 
+# 03/31/2014 upgrade function for using old shell libraries and muerge old commands to KC
+# 05/26/2014 upgrade array in shell to good works
+# 05/29/2014 upgrade to fast working on library loading 
+#$version$:0.2.45
 #################################################################
 # "${@}"    : put arrary
 # ${#@}     : total array num
@@ -436,6 +442,41 @@ _k_opt() {
           return 0
     else
           return 1
+    fi
+}
+
+_k_setup() {
+    local base_path
+    base_path="$1"
+    if [ ! -n "$base_path" ]; then
+          echo "k setup <kc home path>"
+          exit 1
+    fi
+    if [ ! -f ${base_path}/kbin/k.k ]; then
+        echo "KC file not found"
+        exit 1
+    fi
+    if [ -n "$_K_HOME" ]; then
+        echo "Found KC Environment"
+        exit 0
+    else
+        [ -L ${base_path}/kbin/k ] || ( cd ${base_path}/kbin && ln -s k.k k )
+
+        echo "
+## KC Environment >>>
+export _K_HOME=$base_path
+export _K_LIB=${_K_HOME}/klib
+export _K_BIN=${_K_HOME}/kbin
+export _K_ETC=${_K_HOME}/ketc
+export _K_MOD=${_K_HOME}/kmodule
+export PATH=${_K_BIN}:${PATH} 
+## KC Environment <<< " >> ~/.bashrc
+
+        echo "
+  Setup KC Environment to ~/.bashrc
+  Please reload environment or logout and login again
+        "
+        return 0
     fi
 }
 
