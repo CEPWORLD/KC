@@ -465,11 +465,10 @@ _k_setup() {
         echo "
 ## KC Environment >>>
 export _K_HOME=$base_path
-export _K_LIB=${_K_HOME}/klib
-export _K_BIN=${_K_HOME}/kbin
-export _K_ETC=${_K_HOME}/ketc
-export _K_MOD=${_K_HOME}/kmodule
-export PATH=${_K_BIN}:${PATH} 
+export _K_LIB=\${_K_HOME}/klib
+export _K_BIN=\${_K_HOME}/kbin
+export _K_ETC=\${_K_HOME}/ketc
+export PATH=\${_K_BIN}:\${PATH} 
 ## KC Environment <<< " >> ~/.bashrc
 
         echo "
