@@ -45,6 +45,9 @@ _k_svn_add() {
     [ -d "$src" ] || return 1
     svn info "$src" >& /dev/null || return 1
 
+    old_IFS=$IFS
+    IFS=$'\n'
+
     for ii in $(find "$src" | grep -v -e "/.svn" -e "\.$" | sed "s#^\./##g"); do
         echo "[ $ii ]"
         if ! svn info "$ii" >& /dev/null; then
@@ -57,6 +60,8 @@ _k_svn_add() {
             fi
         fi
     done | tee -a /tmp/svn_add.log
+
+    IFS=$old_IFS
 }
 
 _k_svn_compare() {
