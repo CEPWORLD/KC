@@ -1,7 +1,7 @@
 ########################################################################
 # Copyright (c) CEP Research Institude, All rights reserved. Since 2008
 #    Kage Park <kagepark@cep.kr>
-#$version$:0.4.14
+#$version$:0.4.15
 # Description : Fingerprint
 ########################################################################
 KTAG=".k"
@@ -20,24 +20,11 @@ _k_fprint_history() {
    file="$1"
    finger_path="$2"
    [ -f "$file" ] || return 1
-   [ -n "$finger_path" ] || finger_path=$(dirname "$file")/.k_md5
+   [ -n "$finger_path" ] || finger_path=~/.k_md5
    [ -d "${finger_path}" ] || return 1
 
-   _k_md5_cmd=$(_k_md5_cmd) || return 1
-   md5=$($_k_md5_cmd "$file")
-   [ -n "$md5" ] || return 1
-   if [ -f "$finger_path/$md5/info.txt" ]; then
-          cat "$finger_path/$md5/info.txt" | while read info_line; do
-              md5_date=$(echo $info_line | awk -F\| '{print $1}')
-              md5_cmd=$(echo $info_line | awk -F\| '{print $2}')
-              md5_src_file=$(echo $info_line | awk -F\| '{print $3}')
-              md5_dest_file=$(echo $info_line | awk -F\| '{print $4}')
-              echo "$([ -n "$md5_date" ] && date -r $md5_date) : $md5_cmd : $md5_src_file : $md5_dest_file"
-          done
-          return 0
-   fi
-   echo "Not found"
-   return 1
+   md5=$(_k_md5_sum "$file") || return 1
+   _k_md5_db_view "$finger_path/$md5" || return 1
 }
 
 _k_fprint_md5_ctl() {

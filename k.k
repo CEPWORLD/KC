@@ -9,7 +9,7 @@
 # 03/31/2014 upgrade function for using old shell libraries and muerge old commands to KC
 # 05/26/2014 upgrade array in shell to good works
 # 05/29/2014 upgrade to fast working on library loading 
-#$version$:0.2.45
+#$version$:0.2.49
 #################################################################
 # "${@}"    : put arrary
 # ${#@}     : total array num
@@ -354,7 +354,7 @@ _k_opt_end() {
    num=${@:1:1}
    opts=("${@:2}")
    total=$((${#opts[@]}-1))
-   opt_out=()
+   opt_out_end=()
    if [ ! -n "$num" ]; then
        echo "${opts[@]}"
        return 0
@@ -369,10 +369,11 @@ _k_opt_end() {
    done
    if [ -n "${get[*]}" ]; then
        echo "${get[*]}"
-       opt_out=("${get[@]}")
-       export opt_out
+       opt_out_end=("${get[@]}")
+       export opt_out_end
        return 0
    else
+       unset opt_out_end
        return 1
    fi
 }
@@ -388,7 +389,7 @@ _k_opt_end() {
 #   2  : print <value>|<remained options>
 
 _k_opt() {
-    local input find num get ro opts
+    local input find num get ro opts 
     find="${@:1:1}"
     num="${@:2:1}"
     ro="${@:3:1}"
@@ -396,22 +397,20 @@ _k_opt() {
 
     opt_out=()
 
-    [ "$find" == "--help" ] && num=0
+    fnum=0
     [ -n "$num" ] || num=1
     num_input=${#opts[@]}
     for ((i=0;i<$num_input;i++)); do
        if [ "${opts[$i]}" == "$find" ]; then
           unset opts[$i]
-          if [ "$num" == "0" ]; then
-             get[0]="help"
-             break
+          if [ "$find" == "--help" ]; then
+             return 0
           elif [ "$num" == "all" ]; then
              fnum=$(($num_input-1))
           elif (($num>0)); then
              fnum=$(($num+$i))
              (($fnum>=$num_input)) && return 1
           fi
-
           for ((z=$(($i+1)); z <=$fnum; z++)); do
                  if echo ${opts[$z]} | grep "^-" >/dev/null; then
                     [ "$num" == "all" ] && break || return 1
@@ -423,26 +422,24 @@ _k_opt() {
        fi
     done
 
-    if [ -n "${get[*]}" ]; then
-          if [ "$ro" == "1" ]; then
-              opts=("${opts[@]}")
-              echo "${opts[@]}"
-              opt_out=("${opts[@]}")
-          elif [ "$ro" == "2" ]; then
-              opts=("${opts[@]}")
-              echo "${get[@]}|${opts[@]}"
-              opt_out=("${get[@]}" "|" "${opts[@]}")
-          else
-              if [ "${get[*]}" != "help" ]; then
-                   echo "${get[@]}"
-                   opt_out=("${get[@]}")
-              fi
-          fi
-          export opt_out
-          return 0
-    else
-          return 1
+    if [ "$ro" == "1" ]; then
+        opts=("${opts[@]}")
+        echo "${opts[@]}"
+        opt_out=("${opts[@]}")
+    elif [ "$ro" == "2" ]; then
+        opts=("${opts[@]}")
+        echo "${get[@]}|${opts[@]}"
+        opt_out=("${get[@]}" "|" "${opts[@]}")
+    elif [ -n "${get[@]}" ]; then # ro=0
+        echo "${get[@]}"
+        opt_out=("${get[@]}")
     fi
+    if (( ${#opt_out[@]} == 0 )); then
+        unset out_out
+        return 1
+    fi
+    export opt_out
+    return 0
 }
 
 _k_setup() {
@@ -465,10 +462,11 @@ _k_setup() {
         echo "
 ## KC Environment >>>
 export _K_HOME=$base_path
-export _K_LIB=\${_K_HOME}/klib
-export _K_BIN=\${_K_HOME}/kbin
-export _K_ETC=\${_K_HOME}/ketc
-export PATH=\${_K_BIN}:\${PATH} 
+export _K_LIB=${_K_HOME}/klib
+export _K_BIN=${_K_HOME}/kbin
+export _K_ETC=${_K_HOME}/ketc
+export _K_MOD=${_K_HOME}/kmodule
+export PATH=${_K_BIN}:${PATH} 
 ## KC Environment <<< " >> ~/.bashrc
 
         echo "
