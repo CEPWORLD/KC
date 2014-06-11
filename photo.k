@@ -91,7 +91,7 @@ _k_photo_cur_dp_init () {
       echo "$found"
       if [ "$cleanup" == "1" ]; then
           [ "$(echo $found | awk -F: '{if($1=="Found") print $2}')" == "1" ] || \
-          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep/박광>기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
+          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep/박광기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
       fi
 done 
 }
@@ -106,7 +106,7 @@ _k_photo_cur_init () {
       echo "$found"
       if [ "$cleanup" == "1" ]; then
           [ "$(echo $found | awk -F: '{if($1=="Found") print $2}')" == "1" ] || \
-          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep >박광>기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
+          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep/박광기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
       fi
   done
 }
@@ -120,7 +120,7 @@ _k_photo_cur_dp_md5_mv () {
       echo "$found"
       if [ "$cleanup" == "1" ]; then
           [ "$(echo $found | awk -F: '{if($1=="Found") print $2}')" == "1" ] || \
-          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep >박광>기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
+          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep/박광기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
       fi
 done
 }
@@ -134,7 +134,7 @@ _k_photo_cur_dp_md5_cp () {
       echo "$found"
       if [ "$cleanup" == "1" ]; then
           [ "$(echo $found | awk -F: '{if($1=="Found") print $2}')" == "1" ] || \
-          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep >박광>기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
+          _k_fp cleanup "$line" ~/.k_md5/ "/Volumes/cep/photo/photostream/Videos|/Volumes/cep/photo/photostream/Photos|/Volumes/cep/photo/photostream|/Volumes/cep/고미영/|/Volumes/cep/박광기/kage/photo/wedding|/Volumes/cep/박광기/kage/photo|/Volumes/cep/박광기/kage:/Volumes/cep/photo/usb_photo|/Volumes/cep/photo/temp|/Volumes/cep/photo/photo_sync"
       fi
 done
 }
