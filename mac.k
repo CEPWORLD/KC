@@ -1,7 +1,7 @@
 ########################################################################
 # Copyright (c) CEP Research Institude, All rights reserved. Since 2008
 #    Kage Park <kagepark@cep.kr>
-#$version$:0.1.3
+#$version$:0.1.10
 # Description :
 ########################################################################
 KTAG=".k"
@@ -11,9 +11,15 @@ KTAG=".k"
 #include k.k
 
 _k_mac_help() {
-  echo "$(basename $0) [<opt> [<input>] ]
+  echo "
+  Convert MAC to integer 
+  Convert integer to MAC
+
+  $(basename $0) [<opt> [<input>] ]
 
   --help : help
+  -m <mac address> : convert <mac address> to int64
+  -i <int64>       : convert <int64> to <mac address>
   "
   exit
 }
@@ -28,17 +34,41 @@ _k_mac() {
    if _k_opt --help 0 0 "${opt[@]}" >/dev/null; then
        _k_mac_help
        exit 0
-#   elif test=$(_k_opt -t "$opt"); then
-#      _k_mac_test $test || return 1
+   elif test=$(_k_opt -m 1 0 "${opt[@]}"); then
+      _k_mac_str2mac $test || return 1
+   elif test=$(_k_opt -i 1 0 "${opt[@]}"); then
+      _k_mac_mac2str $test || return 1
    else
-      #<command> $opt
       echo "Unknown option"
       exit 1
    fi
 }
 
-#_k_mac_make_temp () {
-#}
+_k_mac_str2mac () {
+   [ -n "$1" ] || return 1
+   let mac=0x$(echo $1| sed "s/://g")
+   echo $mac
+}
+
+_k_mac_mac2str () {
+   local str
+   [ -n "$1" ] || return 1
+   str=$(printf "%02X" $1)
+   end=${#str}
+
+   for ((ii=5;ii>=0;ii--)); do
+      start=$(($end-1))
+      if (($end >= 2 )); then
+          mac_arr[$ii]=$(echo $str | cut -c ${start}-${end})
+      elif (($end < 2 && $end > 0)); then
+          mac_arr[$ii]=$(echo "0$(echo $str | cut -c -1)")
+      else
+          mac_arr[$ii]="00"
+      fi
+      end=$(($start-1))
+   done
+   echo ${mac_arr[*]}|sed "s/ /:/g"
+}
 
 # IF run a shell then run a shell. if load the shell then not running shell. just load
 if [ "$(basename $0)" == "mac.k" ]; then
