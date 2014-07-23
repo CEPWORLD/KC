@@ -2,7 +2,7 @@
 ########################################################################
 # Copyright (c) CEP Research Institude, All rights reserved. Since 2008
 #    Kage Park <kagepark@cep.kr>
-#$version$:0.2.28
+#$version$:0.2.31
 # Description :
 ########################################################################
 error_exit() {
@@ -11,7 +11,7 @@ error_exit() {
 }
 
 [ -n "$_K_LIB" ] || error_exit "_K_LIB not found"
-#include ktunnel.so
+#include tunnel.k
 #include knet.so
 
 ssh_opt="-o StrictHostKeychecking=no -o CheckHostIP=no -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null "
@@ -76,8 +76,9 @@ else
 fi
 
 
-if _k_tunnel_list $dest >/dev/null; then
-    _k_tunnel_ssh $*
+if dest_info=$(_k_tunnel_find_host $dest) >/dev/null; then
+    echo "${id}@${dest}'s password: "
+    ssh -p $(echo $dest_info | awk -F: '{print $2}') ${id}@localhost  $change_dir 2>/dev/null || echo "ssh timeout to ${host_name}"
 else
     host_name=$(_k_net_host $dest) || host_name=$dest
     argv[$host_id]="${id}@${host_name}"
