@@ -1,7 +1,7 @@
 ########################################################################
 # Copyright (c) CEP Research Institude, All rights reserved. Since 2008
 #    Kage Park <kagepark@cep.kr>
-#$version$:0.1.59
+#$version$:0.1.60
 # Created at Wed Jul 23 09:48:44 CDT 2014
 # Description : 
 ########################################################################
@@ -18,8 +18,8 @@ _k_tunnel_help() {
 $(basename $0) [<opt> [<input>] ]
 
   --help : help
-  --open <login1 server> [ <login2 server> ....] <dest server>   : open tunnel with ssh
-  --make <dest server> <dest port> <login server> [<login port>] : open tunnel with ssh
+  --open <login1 server> [ <login2 server> ....] <dest server>   : open tunnel with ssh (up to 9 hops tunnel)
+  --make <dest server> <dest port> <login server> [<login port>] : open 1 hop tunnel
   --find <host> : find host
   --list : show open list
   "
